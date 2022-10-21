@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace GenL.Presentation.Data
+namespace GenL.DataAccess
 {
 	public class ApplicationDbContext : IdentityDbContext
 	{
