@@ -1,0 +1,49 @@
+﻿@model GenL.Presentation.Models.Users.UsersViewModel
+
+@{
+    var users = Model.Users;
+}
+
+@if (users.Any())
+{
+    var firstUser = users.First();
+
+    <h2>Users</h2>
+    <table>
+        <tr>
+            <th>@nameof(firstUser.UserName)</th>
+            <th>@nameof(firstUser.Email)</th>
+        </tr>
+        @foreach (var user in users)
+        {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No registered users</p>
+}
+
+@section Styles{
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+}

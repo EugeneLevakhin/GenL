@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using GenL.DataAccess.Repositories;
+using GenL.DataAccess.Repositories.Abstract;
 using GenL.DataAccess.Entities;
 //using Microsoft.AspNetCore.Identity;
 
@@ -10,6 +12,8 @@ namespace GenL.DataAccess
 		public static IServiceCollection AddDataAccessConfiguration(this IServiceCollection services, string connectionString)
 		{
 			services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+
+			services.AddScoped<IUserRepository, UserRepository>();
 
 			return services;
 		}

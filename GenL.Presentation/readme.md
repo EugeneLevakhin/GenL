@@ -1,10 +1,10 @@
 Admin credentials:
-	admin@mail.com
-	AdminUser777!
+
+	username: admin@mail.com
+	password: AdminUser777!
 
 ToDo list:
-	Api controller
-	Swagger
+
 	Tests
 	Form
 		Asp, Ajax form (binding to model) + ajax js

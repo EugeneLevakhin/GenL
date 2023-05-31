@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using GenL.DataAccess;
+using GenL.Business.Services.Abstract;
+using GenL.Business.Services;
 
 namespace GenL.Business
 {
@@ -8,6 +10,8 @@ namespace GenL.Business
 		public static IServiceCollection AddBusinessConfiguration(this IServiceCollection services, string connectionString)
 		{
 			services.AddDataAccessConfiguration(connectionString);
+
+			services.AddScoped<IUserService, UserService>();
 
 			return services;
 		}
