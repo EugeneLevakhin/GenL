@@ -59,18 +59,38 @@ namespace GenL.Presentation.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
-        }
+
+			[Required]
+			[Display(Name = "UserName")]
+			public string UserName { get; set; }
+
+			//[Required]
+			//[EmailAddress]
+			//[Display(Name = "Email")]
+			//public string Email { get; set; }
+
+			[Display(Name = "First name")]
+			public string FirstName { get; set; }
+
+			[Display(Name = "Last name")]
+			public string LastName { get; set; }
+		}
 
         private async Task LoadAsync(UserEntity user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var email = await _userManager.GetEmailAsync(user);
 
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                UserName = userName,
+                //Email = email,
+                FirstName = user.FirstName,
+                LastName = user.LastName
             };
         }
 
@@ -100,7 +120,44 @@ namespace GenL.Presentation.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            if (user.UserName != Input.UserName)
+            {
+				var userWithSameUserName = await _userManager.FindByNameAsync(Input.UserName);
+				if (userWithSameUserName != null)
+				{
+					ModelState.AddModelError("UserName", $"UserName '{Input.UserName}' is already taken.");
+					return RedirectToPage();
+				}
+			}
+
+			//if (user.Email != Input.Email)
+			//{
+			//	var userWithSameEmail = await _userManager.FindByEmailAsync(Input.Email);
+			//	if (userWithSameEmail != null)
+			//	{
+			//		ModelState.AddModelError("Email", $"Email '{Input.Email}' is already taken.");
+			//	}
+			//}
+
+			var setUserNameResult = await _userManager.SetUserNameAsync(user, Input.UserName);
+			if (!setUserNameResult.Succeeded)
+			{
+				ModelState.AddModelError("UserName", "User name change error");
+				return RedirectToPage();
+			}
+
+			//var setEmailResult = await _userManager.SetEmailAsync(user, Input.Email);
+			//if (!setEmailResult.Succeeded)
+			//{
+			//	ModelState.AddModelError("Email", "Email change error");
+
+			//	// ToDo : 
+			//	//StatusMessage = "<strong>Verify your new email</strong><br/><br/>" +
+			//	//    "We sent an email to " + Input.Email +
+			//	//    " to verify your address. Please click the link in that email to continue.";
+			//}
+
+			var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
             {
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
@@ -111,7 +168,18 @@ namespace GenL.Presentation.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            await _signInManager.RefreshSignInAsync(user);
+            if (user.FirstName != Input.FirstName)
+            {
+                user.FirstName = Input.FirstName;
+			}
+
+			if (user.LastName != Input.LastName)
+			{
+				user.LastName = Input.LastName;
+			}
+
+            await _userManager.UpdateAsync(user);
+			await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }

@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace GenL.Presentation.Areas.Identity.Pages.Account
 {
@@ -66,8 +67,7 @@ namespace GenL.Presentation.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            public string UserNameOrEmail { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -110,19 +110,47 @@ namespace GenL.Presentation.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+				// This doesn't count login failures towards account lockout
+				// To enable password failures to trigger account lockout, set lockoutOnFailure: true
+
+				SignInResult result = null;
+
+				var user = await _signInManager.UserManager.FindByNameAsync(Input.UserNameOrEmail);
+				if (user != null)
+				{
+					result = await _signInManager.PasswordSignInAsync(Input.UserNameOrEmail, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+					if (!result.Succeeded)
+					{
+						ModelState.AddModelError("Input.Password", $"Invalid password for UserName '{Input.UserNameOrEmail}'");
+					}
+				}
+				else
+				{
+					user = await _signInManager.UserManager.FindByEmailAsync(Input.UserNameOrEmail);
+					if (user != null)
+					{
+						result = await _signInManager.PasswordSignInAsync(user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+						if (!result.Succeeded)
+						{
+							ModelState.AddModelError("Input.Password", $"Invalid password for Email '{Input.UserNameOrEmail}'");
+						}
+					}
+					else
+					{
+						ModelState.AddModelError("Input.UserNameOrEmail", $"User with this user name or email '{Input.UserNameOrEmail}' don't exist");
+					}
+				}
+
+				if (result != null && result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
-                if (result.RequiresTwoFactor)
+                if (result != null && result.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }
-                if (result.IsLockedOut)
+                if (result != null && result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");

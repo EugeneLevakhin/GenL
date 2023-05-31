@@ -98,7 +98,17 @@ namespace GenL.Presentation.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-        }
+
+			[Required]
+			[Display(Name = "UserName")]
+			public string UserName { get; set; }
+
+			[Display(Name = "First name")]
+			public string FirstName { get; set; }
+
+			[Display(Name = "Last name")]
+			public string LastName { get; set; }
+		}
 
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -113,10 +123,40 @@ namespace GenL.Presentation.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                List<string> errors = new List<string>();
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+				var userWithSameUserName = await _userManager.FindByNameAsync(Input.UserName);
+				if (userWithSameUserName != null)
+				{
+					errors.Add($"UserName '{Input.UserName}' is already taken.");
+					ModelState.AddModelError("Input.UserName", $"UserName '{Input.UserName}' is already taken.");
+				}
+
+				var userWithSameEmail = await _userManager.FindByEmailAsync(Input.Email);
+                if (userWithSameEmail != null)
+                {
+                    errors.Add($"Email '{Input.Email}' is already taken.");
+					ModelState.AddModelError("Input.Email", $"Email '{Input.Email}' is already taken.");
+				}
+
+                if (errors.Any())
+                {
+					foreach (var error in errors)
+					{
+                        ModelState.AddModelError(string.Empty, error);
+                    }
+
+                    return Page();
+				}
+
+				var user = CreateUser();
+
+				await _userStore.SetUserNameAsync(user, Input.UserName, CancellationToken.None);
+				await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
