@@ -1,6 +1,6 @@
-﻿using GenL.Presentation.Models;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using GenL.Presentation.Models;
 
 namespace GenL.Presentation.Controllers
 {

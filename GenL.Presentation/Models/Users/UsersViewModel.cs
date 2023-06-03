@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using GenL.DataAccess.Entities;
 
 namespace GenL.Presentation.Models.Users
 {
-	public class UsersViewModel
+    public class UsersViewModel
 	{
-		public IdentityUser[] Users { get; set; }
+		public UserEntity[] Users { get; set; }
 
-		public UsersViewModel(IdentityUser[] users)
+		public UsersViewModel(UserEntity[] users)
 		{
 			Users = users;
 		}

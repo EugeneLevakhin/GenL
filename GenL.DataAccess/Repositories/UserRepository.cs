@@ -5,7 +5,7 @@ using GenL.DataAccess.Repositories.Abstract;
 
 namespace GenL.DataAccess.Repositories
 {
-    public class UserRepository : Repository<IdentityUser>, IUserRepository
+    public class UserRepository : Repository<UserEntity>, IUserRepository
     {
         public UserRepository(ApplicationDbContext applicationDbContext)
             : base(applicationDbContext)
