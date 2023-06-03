@@ -14,3 +14,4 @@ ToDo list:
 	DI
 	Logger
 	VUE integration
+	Authorization filters

@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "JsTest Page";
+}
+
+<div>
+    <p id="output">-</p>
+    <input id="startButton" type="button" value="Start counter" />
+    <input id="stopButton" type="button" value="Stop counter" />
+</div>
+
+<br />
+<br />
+
+<div>
+    <input id="getResponseButton" type="button" value="Get users" />
+    <span id="usersOutput"></span>
+</div>
+
+<br />
+<br />
+
+<div>
+    <span>Name:</span>
+    <input id="nameTxt" type="text" value="Carl" />
+    <span>Age:</span>
+    <input id="ageInput" type="number" value="30" />
+    <input id="postButton" type="button" value="Post" />
+</div>
+
+@section Scripts{
+    @*type=module, for "import" and "export" work in .js*@
+    <script src="~/js/modules/jsTestModule/jsTestModule.js" type="module" asp-append-version="true"></script>
+}
