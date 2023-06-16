@@ -1,9 +1,8 @@
-﻿import { getElement } from '../../helpers/domHelper.js';
-import { $ } from '../../helpers/domHelper.js';
+﻿import { getElement, $ } from '../../helpers/domHelper.js';
 import { Request } from '../../helpers/request.js';
 import { Person } from '../../models/person.js';
-import { Colors } from '../constants/colors.js';
 import { Professor } from './models/professor.js';
+import { Colors } from '../constants/colors.js';
 
 var counter = 0;
 var intervalMs = 100;

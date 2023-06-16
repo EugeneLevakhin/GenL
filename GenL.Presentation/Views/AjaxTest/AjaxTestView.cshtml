@@ -1,0 +1,25 @@
+﻿@using GenL.Presentation.Models.Ajax
+
+@{
+}
+
+<div>
+    @*// Try RenderAction instead <partial>*@
+    <partial name="~/Views/Partial/AjaxTest/Result.cshtml" model="@new ResultModel { Result = 1 }" />
+    @*or
+    @await Html.PartialAsync("~/Views/Partial/AjaxTest/Result.cshtml", new ResultModel { Result = 1 })*@
+</div>
+
+@section Scripts {
+    @*  1 variant
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>*@
+
+    @*  2 variant
+    <script type="text/javascript" src="~/manualDownloadedJsLib/jquery.min.js"></script>
+    <script type="text/javascript" src="~/manualDownloadedJsLib/jquery.unobtrusive-ajax.min.js"></script>*@
+
+    @*  3 variant *@
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/manualDownloadedJsLib/jquery.unobtrusive-ajax.min.js"></script>
+}

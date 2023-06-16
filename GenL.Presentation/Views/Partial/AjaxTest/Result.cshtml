@@ -1,0 +1,23 @@
+﻿@*@using GenL.Presentation.Models.Ajax*@
+@model GenL.Presentation.Models.Ajax.ResultModel
+
+@{
+}
+
+<div id="resultForm">
+    <form asp-controller="AjaxTest" asp-action="ShowResult"
+          data-ajax="true"
+          data-ajax-method="POST"
+          data-ajax-mode="replace-with"
+          data-ajax-update="#resultForm">
+
+        <input type="text" value="@Model.Result" asp-for="Result" />
+        <input type="submit" value="Show" class="btn btn-primary" />
+    </form>
+</div>
+
+@*
+data-ajax-mode="before" – Prepends the data to the element.
+data-ajax-mode="after" – Appends the data to the element.
+data-ajax-mode="replace-with" – Replaces the element with the data.
+*@

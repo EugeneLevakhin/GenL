@@ -3,9 +3,10 @@ export { Person };
 class Person {
     static averageAge = 37;
 
-    firstName;
-    lastName;
-    age;
+    // can be uncommented
+    //firstName;
+    //lastName;
+    //age;
 
     constructor(firstName, lastName, age) {
         this.firstName = firstName;

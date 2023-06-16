@@ -5,9 +5,9 @@ Admin credentials:
 
 ToDo list:
 
-	Tests
+	Tests: xUnit(newer) or NUnit
 	Form
-		Asp, Ajax form (binding to model) + ajax js
+		Asp (binding to model, dropdown filling, ect.), Ajax form  + ajax js
 	Login/Reg
 	RenderAction() in Core
 	Inject in cshtml
