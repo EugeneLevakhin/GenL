@@ -1,6 +1,4 @@
-export { Person };
-
-class Person {
+export class Person {
     static averageAge = 37;
 
     // can be uncommented

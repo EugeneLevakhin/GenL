@@ -1,6 +1,4 @@
-﻿export { Request };
-
-class Request {
+﻿export class Request {
     constructor(responseCallback) {
         this.httpRequest = new XMLHttpRequest();
         this.responseCallback = responseCallback;
