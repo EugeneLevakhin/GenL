@@ -1,0 +1,7 @@
+﻿@{
+}
+
+<div>
+    @* if need pass model: new { modelArgNameInComponentMethod = new Model(true) }*@
+    @await Component.InvokeAsync("Time", new { isUtc = true } )
+</div>

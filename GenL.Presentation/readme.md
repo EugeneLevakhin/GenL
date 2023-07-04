@@ -9,7 +9,6 @@ ToDo list:
 	Form
 		Asp (binding to model, dropdown filling, ect.), Ajax form  + ajax js
 	Login/Reg
-	RenderAction() in Core
 	Inject in cshtml
 	DI
 	Logger
