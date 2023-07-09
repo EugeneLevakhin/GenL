@@ -13,7 +13,7 @@
             }
         }
 
-        var url = new URL(path, location).toString();
+        let url = new URL(path, location).toString();
         this.httpRequest.open("GET", url);
 
         this.httpRequest.send();
@@ -28,8 +28,8 @@
             }
         }
 
-        var json = JSON.stringify(object);
-        var url = new URL(path, location).toString();
+        let json = JSON.stringify(object);
+        let url = new URL(path, location).toString();
         this.httpRequest.open("POST", url);
         this.httpRequest.setRequestHeader("Content-Type", "application/json");
 
